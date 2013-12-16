@@ -1,0 +1,24 @@
+
+// Specify the main class for "run" task
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'com.koobe.common.quickstart.Application'
+}
+
+/*
+repositories {
+    mavenCentral()
+    // You may define additional repositories, or even remove "mavenCentral()".
+    // Read more about repositories here:
+    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
+}
+*/
+
+dependencies {
+    compile project(':KoobeCommonCore')
+    
+    // JUnit 4
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+
+    // Amazon AWS Java SDK
+    compile 'com.amazonaws:aws-java-sdk:1.6.4'
+}

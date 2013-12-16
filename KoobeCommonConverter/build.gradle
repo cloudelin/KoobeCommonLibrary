@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.2-rc1'
+    }
+}
+
+apply plugin: 'fatjar'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// Specify the main class for "run" task
+if (!hasProperty('mainClass')) {
+    mainClassName = ext.mainClass = 'com.koobe.common.pdf.ConsoleMain'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':KoobeCommonCore')
+    
+    // JUnit
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+    
+    // Amazon AWS Java SDK
+    //compile 'com.amazonaws:aws-java-sdk:1.6.4'
+    
+
+    // Google GSON
+    compile 'com.google.code.gson:gson:2.2.4'
+    
+    // Apache Commons Projects
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'commons-io:commons-io:2.4'
+    compile 'commons-vfs:commons-vfs:1.0'
+    compile 'commons-cli:commons-cli:1.2'
+    //compile 'org.apache.commons:commons-compress:1.6'
+    //compile 'org.apache.ant:ant:1.9.2'
+    
+    // XML Pull Parsing                                                         
+    compile 'xmlpull:xmlpull:1.1.3.1'
+    runtime 'net.sf.kxml:kxml2:2.3.0'
+
+    // HtmlCleaner is an HTML parser written in Java.                           
+    // It transforms dirty HTML to well-formed XML following the same rules that most web-browsers use.
+    //compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.6.1'                   
+    compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.2'
+    
+    // EpubCheck is a tool to validate IDPF EPUB files. 
+    // It can detect many types of errors in EPUB.
+    compile 'org.idpf:epubcheck:3.0.1'
+    
+    // Apache POI - Java API To Access Microsoft Format Files
+    compile 'org.apache.poi:poi:3.9'
+    compile 'org.apache.poi:poi-ooxml:3.9'
+}
+
+run {
+    if(project.hasProperty('args')){
+        args project.args.split('\\s+')
+    }
+}
+
+fatJar {
+    manifest {
+        attributes 'Main-Class': 'com.koobe.common.pdf.ConsoleMain'
+    }
+    //exclude 'log4j.properties'
+}

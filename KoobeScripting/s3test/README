@@ -1,0 +1,28 @@
+
+Usage:
+
+    groovy s3auth.groovy
+
+Output Example:
+
+    $ groovy s3auth.groovy
+    Access Key ID: 
+    [S3_ACCESS_KEY_HERE]
+    Secret Access Key:
+    [S3_SECRET_ACCESS_KEY_HERE]
+    Bucket Name for Testing (e.g. koobe-repo): 
+    koobe-repo
+    List of all visible buckets: 
+    * cf-templates-ws4kj6pv16qp-ap-southeast-1
+    * elasticbeanstalk-ap-southeast-1-417280986345
+    * kgl-tmp
+    * koobe-lib
+    * koobe-repo
+    * koobecloudepub
+    * static-resource
+    List all objects in koobe-repo
+    1. koobe-repo/maven/
+    2. koobe-repo/maven/external/
+    3. koobe-repo/maven/private/
+    4. koobe-repo/maven/public/
+
