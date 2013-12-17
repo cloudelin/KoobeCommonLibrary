@@ -1,103 +1,49 @@
 //
 // This file is to be applied to every subproject.
 //
+
 buildscript {
     repositories {
-        //mavenLocal()
         mavenCentral()
-        maven {
-            url "http://repository-monochromeroad.forge.cloudbees.com/release/"
-        }
     }
-    
     dependencies {
-        classpath "com.monochromeroad.gradle:gradle-aws-s3-sync:0.5"
     }
 }
 
 apply plugin: 'java'
-//apply plugin: 'groovy'
 apply plugin: 'application'
-apply plugin: 'idea'
-//apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+//apply plugin: 'groovy'
+//apply plugin: 'idea'
+//apply plugin: 'eclipse'
+//apply plugin: 'nexus'
 //apply plugin: 'project-report'
 //apply plugin: 'jacoco'
 
-String mavenGroupId = 'koobe'
-String mavenVersion = '0.1.1.6-SNAPSHOT'
+//
+// Update version before publishing
+//
+//name = {project.directory.name}
+group = 'koobe'
+version = '0.0.1-SNAPSHOT'
 
+//
+// Java
+//
 compileJava {
-    sourceCompatibility = '1.6'
-    targetCompatibility = '1.6'
+    sourceCompatibility = '1.7'
+    targetCompatibility = '1.7'
 }
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-/*
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        csv.enabled = false
-        xml.enabled = true
-    } 
-}
-
-jacoco {
-    applyTo run
-}
-
-task applicationCodeCoverageReport(type:JacocoReport){
-    executionData run
-    sourceSets sourceSets.main
-}
-*/
-
 repositories {
     mavenCentral();
-
-    // Spring Repository
-    /*
-    maven {
-        url "http://repo.spring.io/lib-snapshot"
-    }
-    maven {
-        url "http://repo.spring.io/snapshot"
-    }
-    */
-    maven {
-        url "http://repo.spring.io/milestone"
-    }
 }
 
 dependencies {
-    
-    // Adding dependencies here will add the dependencies to each subproject.
-    testCompile group: 'junit', name: 'junit', version: '4.10'
-}
-
-String mavenArtifactId = name
-
-group = mavenGroupId
-version = mavenVersion
-
-task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives jar
-    archives sourcesJar
-}
-
-configure(install.repositories.mavenInstaller) {
-    pom.project {
-        groupId = mavenGroupId
-        artifactId = mavenArtifactId
-        version = mavenVersion
-    }
+    testCompile 'junit:junit:4.10'
 }
 
 task createFolders(description: 'Creates the source folders if they do not exist.') doLast {
@@ -109,36 +55,10 @@ task createFolders(description: 'Creates the source folders if they do not exist
     }
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            //groupId 'koobe'
-            //artifactId 'koobe-common-lib'
-            //version '0.1' // Specify version in project scope
-
-            from components.java
-
-            artifact sourceJar {
-                classifier "sources"
-            }
-        }
-    }
-    repositories {
-        maven {
-            url "${buildDir}/repo"
-        }
-    }
-}
+// Clone Environment Variables from grails.properties
 
 tasks.withType(JavaExec){
-    // copy system environments
-    
     System.properties.each { key, value ->
-        
         if (key.startsWith('SYSENV_')) {
             systemProperty key.substring(7), value
         }
@@ -146,33 +66,54 @@ tasks.withType(JavaExec){
 }
 
 test {
-    
-    // copy system environments
     System.properties.each { key, value ->
-        
         if (key.startsWith('SYSENV_')) {
             systemProperty key.substring(7), value
         }
-        
-        //println "${key}, ${value}"
     }
 }
 
-import com.monochromeroad.gradle.plugin.aws.s3.S3Sync
+// Publishing
 
-task deploy(type: S3Sync){
-    description = "Deploys my site on a s3 bucket."
-
-    accessKey System.properties['SYSENV_AWS_ACCESS_KEY_ID']
-    secretKey System.properties['SYSENV_AWS_SECRET_KEY']
-
-    configFile "../synchronizer.properties"
-    acl com.monochromeroad.gradle.plugin.aws.s3.ACL.PublicRead
-
-    //noDelete true
-    keepFiles true
-
-
-    from "${buildDir}/repo/"
-    into "koobe-repo/maven/private/"
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
+
+task sourceJar (type : Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username "koobe"
+                password "koobe123"
+            }
+            //url "${buildDir}/repo"
+            url "http://nexus.teamcollab.org/content/repositories/snapshots/"
+        }
+    }
+}
+
