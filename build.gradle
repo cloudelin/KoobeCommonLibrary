@@ -4,7 +4,7 @@ apply plugin: 'base' // To add "clean" task to the root project.
 
 buildscript {
     //ext.springVersion = "3.2.5.RELEASE"
-    ext.springVersion = "4.0.0.RC1"
+    ext.springVersion = "4.0.0.RELEASE"
 }
 
 subprojects {
