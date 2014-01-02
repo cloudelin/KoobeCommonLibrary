@@ -38,6 +38,29 @@ compileJava {
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+javadoc {
+    options.encoding = "UTF-8"
+}
+
+/*
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        csv.enabled = false
+        xml.enabled = true
+    } 
+}
+
+jacoco {
+    applyTo run
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData run
+    sourceSets sourceSets.main
+}
+*/
+
 repositories {
     mavenCentral();
 }
