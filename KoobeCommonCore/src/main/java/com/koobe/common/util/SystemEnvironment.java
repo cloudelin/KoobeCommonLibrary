@@ -28,7 +28,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return true if system is x86 arch
      */
     public static boolean isX86() {
         return bitness == 32;
@@ -36,7 +36,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return true if system is x64 arch
      */
     public static boolean isX64() {
         return bitness == 64;
@@ -44,7 +44,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return 32 or 64 bitness
      */
     public static int getBitness() {
         return bitness;
@@ -52,7 +52,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return true if system os is windows
      */
     public static boolean isWindows() {
         return osName.toLowerCase().startsWith("windows");
@@ -60,7 +60,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return true if system os is linux
      */
     public static boolean isLinux() {
         return osName.toLowerCase().startsWith("linux");
@@ -68,7 +68,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return true if system os is mac os x
      */
     public static boolean isMac() {
         return osName.toLowerCase().startsWith("mac");
@@ -76,7 +76,7 @@ public class SystemEnvironment {
     
     /**
      *
-     * @return
+     * @return system information
      */
     public static String getSystemInfo() {
         return osName + ", " + osArch + ", " + osVersion;
