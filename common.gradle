@@ -1,0 +1,142 @@
+//
+// This file is to be applied to every subproject.
+//
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+//apply plugin: 'groovy'
+//apply plugin: 'idea'
+//apply plugin: 'eclipse'
+//apply plugin: 'nexus'
+//apply plugin: 'project-report'
+//apply plugin: 'jacoco'
+
+//
+// Update version before publishing
+//
+//name = {project.directory.name}
+group = 'koobe'
+version = '0.0.1-SNAPSHOT'
+
+//
+// Java
+//
+compileJava {
+    sourceCompatibility = '1.7'
+    targetCompatibility = '1.7'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+javadoc {
+    options.encoding = "UTF-8"
+}
+
+/*
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        csv.enabled = false
+        xml.enabled = true
+    } 
+}
+
+jacoco {
+    applyTo run
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData run
+    sourceSets sourceSets.main
+}
+*/
+
+repositories {
+    mavenCentral();
+}
+
+dependencies {
+    testCompile 'junit:junit:4.10'
+}
+
+task createFolders(description: 'Creates the source folders if they do not exist.') doLast {
+    sourceSets*.allSource*.srcDirs*.each { File srcDir ->
+        if (!srcDir.isDirectory()) {
+            println "Creating source folder: ${srcDir}"
+            srcDir.mkdirs()
+        }
+    }
+}
+
+// Clone Environment Variables from grails.properties
+
+tasks.withType(JavaExec){
+    System.properties.each { key, value ->
+        if (key.startsWith('SYSENV_')) {
+            systemProperty key.substring(7), value
+        }
+    }
+}
+
+test {
+    System.properties.each { key, value ->
+        if (key.startsWith('SYSENV_')) {
+            systemProperty key.substring(7), value
+        }
+    }
+}
+
+// Publishing
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourceJar (type : Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username "koobe"
+                password "koobe123"
+            }
+            //url "${buildDir}/repo"
+            url "http://nexus.teamcollab.org/content/repositories/snapshots/"
+        }
+    }
+}
+
