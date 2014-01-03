@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Properties;
+
+import com.koobe.common.core.config.reader.UserHomePropertyConfigReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +41,15 @@ public class KoobeConfig {
 
     {
         applyConfigReader(new SystemEnvironmentConfigReader());
+
+        try {
+            applyConfigReader(new UserHomePropertyConfigReader());
+        }
+        catch (IOException ex) {
+            log.info("Koobe Application Config {}/{} not found",
+                    UserHomePropertyConfigReader.USER_HOME,
+                    UserHomePropertyConfigReader.PROPERTY_FILE_NAME);
+        }
     }
 
     /**
