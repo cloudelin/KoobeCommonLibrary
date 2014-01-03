@@ -100,7 +100,7 @@ public class KoobeConfig {
     
     /**
      *
-     * @return
+     * @return amazon web services access_key
      */
     public String getAwsAccessKeyID() {
         return config.getProperty("AWS_ACCESS_KEY_ID");
@@ -108,7 +108,7 @@ public class KoobeConfig {
     
     /**
      *
-     * @return
+     * @return amazon web services secret_access_key
      */
     public String getAwsSecretKey() {
         return config.getProperty("AWS_SECRET_KEY");
@@ -116,7 +116,7 @@ public class KoobeConfig {
     
     /**
      *
-     * @return
+     * @return amazon web services elastic cache url
      */
     public String getAwsElastiCacheUrl() {
         String configValue = config.getProperty("AWS_ELASTI_CACHE_URL");

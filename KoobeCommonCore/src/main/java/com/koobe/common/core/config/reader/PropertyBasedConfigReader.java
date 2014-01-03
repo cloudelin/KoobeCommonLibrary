@@ -53,7 +53,7 @@ public abstract class PropertyBasedConfigReader implements ConfigReader {
     
     /**
      *
-     * @param props
+     * @param props properties
      */
     protected void setProperties(Properties props) {
         this.props = props;
@@ -61,7 +61,7 @@ public abstract class PropertyBasedConfigReader implements ConfigReader {
     
     /**
      *
-     * @return
+     * @return properties
      */
     protected Properties getProperties() {
         return props;

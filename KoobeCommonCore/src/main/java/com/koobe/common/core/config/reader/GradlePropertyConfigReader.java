@@ -17,6 +17,7 @@ import java.util.Properties;
  * @author lyhcode
  */
 public class GradlePropertyConfigReader extends PropertyBasedConfigReader implements ConfigReader {
+
     private final static String PROP_KEY_PREFIX = "systemProp.SYSENV_";
 
     /**
@@ -39,9 +40,7 @@ public class GradlePropertyConfigReader extends PropertyBasedConfigReader implem
         
         Properties props = new Properties();
         
-        for (Object okey : srcProps.keySet()) {
-            String key = okey.toString();
-            
+        for (String key : srcProps.stringPropertyNames()) {
             if (key.startsWith(PROP_KEY_PREFIX)) {
                 props.setProperty(key.replaceFirst(PROP_KEY_PREFIX, ""), srcProps.getProperty(key));
             }
