@@ -1,0 +1,19 @@
+
+// Specify the main class for "run" task
+if (!hasProperty('mainClass')) {
+    //ext.mainClass = 'com.koobe.common.quickstart.Application'
+    mainClassName = ext.mainClass = 'ConsoleMain'
+}
+
+/*
+repositories {
+    mavenCentral()
+}
+*/
+
+dependencies {
+    compile project(':KoobeCommonCore')
+
+    // Amazon AWS Java SDK
+    compile 'com.amazonaws:aws-java-sdk:1.6.4'
+}
