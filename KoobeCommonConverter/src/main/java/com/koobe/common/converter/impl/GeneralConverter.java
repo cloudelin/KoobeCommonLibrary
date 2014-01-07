@@ -19,23 +19,23 @@ public abstract class GeneralConverter implements KoobeConverter {
     protected KoobeFileType destType = KoobeFileType.NONE;
 
     @Override
-    public void setSrcType(KoobeFileType type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setSrcType(KoobeFileType srcType) {
+        this.srcType = srcType;
     }
 
     @Override
     public KoobeFileType getSrcType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return srcType;
     }
 
     @Override
-    public void setDestType(KoobeFileType type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setDestType(KoobeFileType destType) {
+        this.destType = destType;
     }
 
     @Override
     public KoobeFileType getDestType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return destType;
     }
     
 }
