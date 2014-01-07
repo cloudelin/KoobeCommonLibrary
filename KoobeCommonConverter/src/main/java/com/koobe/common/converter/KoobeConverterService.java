@@ -6,9 +6,6 @@
 package com.koobe.common.converter;
 
 import com.koobe.common.core.service.GeneralKoobeService;
-import com.koobe.common.converter.impl.Converter;
-import com.koobe.common.converter.impl.ConverterType;
-import com.koobe.common.converter.impl.FileType;
 import com.koobe.common.converter.impl.MupdfConverter;
 import com.koobe.common.util.FileSystem;
 import com.koobe.common.util.SystemEnvironment;
@@ -43,12 +40,12 @@ public class KoobeConverterService extends GeneralKoobeService {
     /**
      * Fetch a converter
      *
-     * @param type target format e.g. ConverterType.PDF_TO_EPUB
+     * @param type target format e.g. KoobeConverterType.PDF_TO_EPUB
      * @return PDF Converter
      */
-    public Converter getConverter(ConverterType type) {
-        if (type.equals(ConverterType.PDF_TO_EPUB)) {
-            return new MupdfConverter(FileType.EPUB);
+    public KoobeConverter getConverter(KoobeConverterType type) {
+        if (type.equals(KoobeConverterType.PDF_TO_EPUB)) {
+            return new MupdfConverter(KoobeFileType.EPUB);
         }
         return null;
     }

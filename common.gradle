@@ -103,6 +103,13 @@ task javadocJar (type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+jar {
+    manifest {
+        attributes("Specification-Title": name, "Specification-Version": version, "Specification-Vendor": "KOOBE Inc.")
+        attributes("Implementation-Title": name, "Implementation-Version": version, "Implementation-Vendor": "KOOBE Inc.")
+    }
+}
+
 task sourceJar (type : Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource

@@ -7,13 +7,14 @@
 package com.koobe.common.converter;
 
 import com.koobe.common.core.KoobeApplication;
-import com.koobe.common.converter.impl.ConverterType;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  *
@@ -53,7 +54,22 @@ public class MainTest {
 
     @Test
     public void getConverter() {
-        assertNotNull(service.getConverter(ConverterType.PDF_TO_EPUB));
+        assertNotNull(service.getConverter(KoobeConverterType.PDF_TO_EPUB));
+    }
+
+    @Test
+    public void convertWordToEpub() {
+
+        File src = new File("ooo.doc");
+        File dest = new File("ooo.epub");
+
+        assert src.exists();
+        assert !dest.exists();
+
+        KoobeConverter converter = service.getConverter(KoobeConverterType.WORD_TO_EPUB);
+        converter.convert(src, dest);
+
+        assert (dest.exists());
     }
     
 

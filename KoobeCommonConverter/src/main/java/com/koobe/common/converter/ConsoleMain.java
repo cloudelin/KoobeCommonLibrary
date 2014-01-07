@@ -6,7 +6,6 @@
 package com.koobe.common.converter;
 
 import com.koobe.common.core.KoobeApplication;
-import com.koobe.common.converter.impl.ConverterType;
 import com.koobe.common.converter.impl.MupdfConverter;
 import java.io.File;
 import java.util.List;
@@ -37,7 +36,7 @@ public class ConsoleMain {
             System.exit(-1);
         }
 
-        MupdfConverter converter = (MupdfConverter) service.getConverter(ConverterType.PDF_TO_EPUB);
+        MupdfConverter converter = (MupdfConverter) service.getConverter(KoobeConverterType.PDF_TO_EPUB);
 
         Options options = new Options();
 

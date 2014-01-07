@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-package com.koobe.common.converter.impl;
+package com.koobe.common.converter;
 
 /**
  *
  * @author lyhcode
  */
-public enum FileType {
-    NONE, PDF, EPUB, DOC, DOCX;
+public enum KoobeConverterType {
+    PDF_TO_EPUB,
+    WORD_TO_EPUB;
 }

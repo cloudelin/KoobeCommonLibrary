@@ -5,6 +5,9 @@ if (!hasProperty('mainClass')) {
 else {
     mainClassName = mainClass
 }
+
+jar.exclude 'log4j.properties' 
+
 repositories {
     mavenCentral()
 }

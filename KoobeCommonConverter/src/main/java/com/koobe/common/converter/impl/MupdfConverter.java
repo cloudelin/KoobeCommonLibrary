@@ -6,6 +6,7 @@
 
 package com.koobe.common.converter.impl;
 
+import com.koobe.common.converter.KoobeFileType;
 import com.koobe.pdf2epub.Pdf2ePub;
 import java.io.File;
 import org.slf4j.Logger;
@@ -24,10 +25,10 @@ public class MupdfConverter extends GeneralConverter {
     private int dpi = 144;
     
     {
-        srcType = FileType.PDF;
+        srcType = KoobeFileType.PDF;
     }
     
-    public MupdfConverter(FileType destType) {
+    public MupdfConverter(KoobeFileType destType) {
         this.destType = destType;
     }
 

@@ -7,6 +7,8 @@
 package com.koobe.common.converter.impl;
 
 import java.io.File;
+
+import com.koobe.common.converter.KoobeFileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,10 +21,10 @@ public class PoiConverter extends GeneralConverter {
     private final static Logger log = LoggerFactory.getLogger(PoiConverter.class);
         
     {
-        //srcType = FileType.DOC;
+        //srcType = KoobeFileType.DOC;
     }
     
-    public PoiConverter(FileType srcType, FileType destType) {
+    public PoiConverter(KoobeFileType srcType, KoobeFileType destType) {
         this.srcType = srcType;
         this.destType = destType;
     }

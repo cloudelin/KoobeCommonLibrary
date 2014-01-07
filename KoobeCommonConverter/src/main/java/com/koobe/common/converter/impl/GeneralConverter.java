@@ -6,32 +6,35 @@
 
 package com.koobe.common.converter.impl;
 
+import com.koobe.common.converter.KoobeFileType;
+import com.koobe.common.converter.KoobeConverter;
+
 /**
  *
  * @author lyhcode
  */
-public abstract class GeneralConverter implements Converter {
+public abstract class GeneralConverter implements KoobeConverter {
     
-    protected FileType srcType = FileType.NONE;
-    protected FileType destType = FileType.NONE;
+    protected KoobeFileType srcType = KoobeFileType.NONE;
+    protected KoobeFileType destType = KoobeFileType.NONE;
 
     @Override
-    public void setSrcType(FileType type) {
+    public void setSrcType(KoobeFileType type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public FileType getSrcType() {
+    public KoobeFileType getSrcType() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setDestType(FileType type) {
+    public void setDestType(KoobeFileType type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public FileType getDestType() {
+    public KoobeFileType getDestType() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

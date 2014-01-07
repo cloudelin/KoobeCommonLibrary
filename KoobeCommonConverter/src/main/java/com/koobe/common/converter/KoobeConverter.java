@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.koobe.common.converter.impl;
+package com.koobe.common.converter;
 
 import java.io.File;
 
@@ -12,11 +12,11 @@ import java.io.File;
  *
  * @author lyhcode
  */
-public interface Converter {
-    public void setSrcType(FileType type);
-    public FileType getSrcType();
-    public void setDestType(FileType type);
-    public FileType getDestType();
+public interface KoobeConverter {
+    public void setSrcType(KoobeFileType type);
+    public KoobeFileType getSrcType();
+    public void setDestType(KoobeFileType type);
+    public KoobeFileType getDestType();
     
     public boolean convert(File src, File target);
 }
