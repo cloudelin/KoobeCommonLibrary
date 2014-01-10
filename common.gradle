@@ -14,6 +14,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'wrapper'
 //apply plugin: 'groovy'
 //apply plugin: 'idea'
 //apply plugin: 'eclipse'
@@ -26,7 +27,7 @@ apply plugin: 'maven-publish'
 //
 //name = {project.directory.name}
 group = 'koobe'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 //
 // Java

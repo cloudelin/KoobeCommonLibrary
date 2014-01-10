@@ -104,4 +104,8 @@ public class MainTest {
         assert (list1.size() == 1);
         assert (list1.get(0) instanceof KoobeDataService);
     }
+
+    @Test void amazonRDSSecurityManager() {
+
+    }
 }

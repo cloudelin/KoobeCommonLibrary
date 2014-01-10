@@ -3,3 +3,5 @@ target
 build
 gradle.properties
 *.iml
+gradle
+gradlew*

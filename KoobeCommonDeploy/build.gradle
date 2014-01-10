@@ -15,5 +15,5 @@ dependencies {
     compile project(':KoobeCommonCore')
 
     // Amazon AWS Java SDK
-    compile 'com.amazonaws:aws-java-sdk:1.6.4'
+    compile 'com.amazonaws:aws-java-sdk:1.6.11'
 }

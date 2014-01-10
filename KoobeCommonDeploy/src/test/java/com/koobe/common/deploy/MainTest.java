@@ -7,7 +7,7 @@
 package com.koobe.common.deploy;
 
 import com.koobe.common.core.KoobeApplication;
-import com.koobe.common.deploy.deployer.BeansTalkDeployer;
+import com.koobe.common.deploy.deployer.impl.BeansTalkDeployer;
 import org.junit.*;
 
 import static org.junit.Assert.assertNotNull;
