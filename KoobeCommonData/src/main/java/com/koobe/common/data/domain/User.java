@@ -1,10 +1,8 @@
 package com.koobe.common.data.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lyhcode on 2013/12/14.
@@ -18,8 +16,8 @@ public class User {
     @Column(unique = true)
     private String userId;
 
-    private Long orgId;
-    private Long communityId;
+    private Integer orgId;
+    private Integer communityId;
     private String name;
     private String email;
     private Date birthday;
@@ -30,6 +28,12 @@ public class User {
     private Boolean adminRole;
     private Date timestamp;
     private String remark;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "UserDraft",
+            joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "draftId", referencedColumnName = "id"))
+    private List<Draft> drafts;
 
     public Long getId() {
         return id;
@@ -47,19 +51,19 @@ public class User {
         this.userId = userId;
     }
 
-    public Long getOrgId() {
+    public Integer getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(Long orgId) {
+    public void setOrgId(Integer orgId) {
         this.orgId = orgId;
     }
 
-    public Long getCommunityId() {
+    public Integer getCommunityId() {
         return communityId;
     }
 
-    public void setCommunityId(Long communityId) {
+    public void setCommunityId(Integer communityId) {
         this.communityId = communityId;
     }
 
@@ -141,5 +145,13 @@ public class User {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<Draft> getDrafts() {
+        return drafts;
+    }
+
+    public void setDrafts(List<Draft> drafts) {
+        this.drafts = drafts;
     }
 }
