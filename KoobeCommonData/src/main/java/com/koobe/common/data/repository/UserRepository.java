@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByUserId(String userId);
+    User getByUserId(String userId);
 }

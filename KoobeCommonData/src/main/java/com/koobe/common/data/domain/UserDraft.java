@@ -4,28 +4,38 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Draft Book Master Entity
+ * User and Draft Relationship Entity
  */
 @Entity
-public class Draft {
+public class UserDraft {
 
-    public enum DraftStatus {
-        CONVERTING, READY, PUBLISHED;
+    public enum UserDraftRelationType {
+        OWNER;
     }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private User user;
 
-    private DraftStatus status;
+    private Draft draft;
 
-    private Integer progress;
+    private UserDraftRelationType type;
 
     private Date dateCreated;
 
     private Date lastUpdated;
+
+    public UserDraft() {
+
+    }
+
+    public UserDraft(User user, Draft draft) {
+        this.user = user;
+        this.draft = draft;
+        this.type = UserDraftRelationType.OWNER;
+    }
 
     @PrePersist
     protected void onCreate() {
@@ -36,22 +46,6 @@ public class Draft {
     @PreUpdate
     protected void onUpdate() {
         setLastUpdated(new Date());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Date getDateCreated() {
@@ -70,19 +64,27 @@ public class Draft {
         this.lastUpdated = lastUpdated;
     }
 
-    public DraftStatus getStatus() {
-        return status;
+    public User getUser() {
+        return user;
     }
 
-    public void setStatus(DraftStatus status) {
-        this.status = status;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getProgress() {
-        return progress;
+    public Draft getDraft() {
+        return draft;
     }
 
-    public void setProgress(Integer progress) {
-        this.progress = progress;
+    public void setDraft(Draft draft) {
+        this.draft = draft;
+    }
+
+    public UserDraftRelationType getType() {
+        return type;
+    }
+
+    public void setType(UserDraftRelationType type) {
+        this.type = type;
     }
 }

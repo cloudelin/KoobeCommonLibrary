@@ -3,11 +3,11 @@ package com.koobe.common.data;
 import com.koobe.common.core.KoobeApplication;
 import com.koobe.common.data.domain.Draft;
 import com.koobe.common.data.domain.User;
+import com.koobe.common.data.domain.UserDraft;
 import com.koobe.common.data.repository.DraftRepository;
+import com.koobe.common.data.repository.UserDraftRepository;
 import com.koobe.common.data.repository.UserRepository;
 import org.junit.*;
-
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -15,20 +15,26 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by lyhcode on 2013/12/14.
  */
-public class DraftTest {
+public class UserDraftTest {
 
     private static KoobeApplication application;
     private static KoobeDataService service;
-    private static DraftRepository repo;
+    private static UserDraftRepository repository;
 
-    public DraftTest() {
+    private static UserRepository userRepository;
+    private static DraftRepository draftRepository;
+
+    public UserDraftTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
         application = KoobeApplication.getInstance();
         service = (KoobeDataService) application.getService(KoobeDataService.class);
-        repo = (DraftRepository) service.getRepository(DraftRepository.class);
+        repository = (UserDraftRepository) service.getRepository(UserDraftRepository.class);
+
+        userRepository = (UserRepository) service.getRepository(UserRepository.class);
+        draftRepository = (DraftRepository) service.getRepository(DraftRepository.class);
     }
 
     @AfterClass
@@ -48,18 +54,14 @@ public class DraftTest {
     public void createUpdateDelete() {
         Draft draft;
         draft = new Draft();
-
-        assertNull(draft.getId());
-
         draft.setName("Test a Draft Book");
-        draft.setStatus(Draft.DraftStatus.CONVERTING);
-        draft.setProgress(100);
 
-        assertNotNull(repo.save(draft));
+        User user = userRepository.getByUserId("admin");
+        assertNotNull(user);
 
-        assertNotNull(draft.getId());
+        UserDraft relation = new UserDraft(user, draft);
+        repository.save(relation);
 
-        //delete
-        repo.delete(draft);
+        assertNotNull(relation);
     }
 }
