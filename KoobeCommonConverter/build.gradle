@@ -54,6 +54,9 @@ dependencies {
     // Apache POI - Java API To Access Microsoft Format Files
     compile 'org.apache.poi:poi:3.9'
     compile 'org.apache.poi:poi-ooxml:3.9'
+	
+	// Dom4j: the flexible XML framework for Java
+	compile 'dom4j:dom4j:1.6.1'
 }
 
 run {

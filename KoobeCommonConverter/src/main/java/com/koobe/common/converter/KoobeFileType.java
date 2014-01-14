@@ -11,5 +11,5 @@ package com.koobe.common.converter;
  * @author lyhcode
  */
 public enum KoobeFileType {
-    NONE, PDF, EPUB, DOC, DOCX;
+    NONE, PDF, EPUB, DOC, DOCX, TXT;
 }

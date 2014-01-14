@@ -60,17 +60,15 @@ public class MainTest {
     @Test
     public void convertWordToEpub() {
 
-        File src = new File("ooo.doc");
-        File dest = new File("ooo.epub");
-
-        assert src.exists();
-        assert !dest.exists();
-
-        KoobeConverter converter = service.getConverter(KoobeConverterType.WORD_TO_EPUB);
-        converter.convert(src, dest);
-
-        assert (dest.exists());
+//        File src = new File("ooo.doc");
+//        File dest = new File("ooo.epub");
+//
+//        assert src.exists();
+//        assert !dest.exists();
+//
+//        KoobeConverter converter = service.getConverter(KoobeConverterType.WORD_TO_EPUB);
+//        converter.convert(src, dest);
+//
+//        assert (dest.exists());
     }
-    
-
 }

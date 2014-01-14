@@ -12,5 +12,6 @@ package com.koobe.common.converter;
  */
 public enum KoobeConverterType {
     PDF_TO_EPUB,
-    WORD_TO_EPUB;
+    WORD_TO_EPUB,
+    TXT_TO_EPUB;
 }

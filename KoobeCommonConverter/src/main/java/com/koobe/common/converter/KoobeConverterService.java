@@ -7,8 +7,10 @@ package com.koobe.common.converter;
 
 import com.koobe.common.core.service.GeneralKoobeService;
 import com.koobe.common.converter.impl.MupdfConverter;
+import com.koobe.common.converter.impl.TxtConverter;
 import com.koobe.common.util.FileSystem;
 import com.koobe.common.util.SystemEnvironment;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,8 @@ public class KoobeConverterService extends GeneralKoobeService {
     public KoobeConverter getConverter(KoobeConverterType type) {
         if (type.equals(KoobeConverterType.PDF_TO_EPUB)) {
             return new MupdfConverter(KoobeFileType.EPUB);
+        } else if (type.equals(KoobeConverterType.TXT_TO_EPUB)) {
+        	return new TxtConverter(KoobeFileType.EPUB);
         }
         return null;
     }
