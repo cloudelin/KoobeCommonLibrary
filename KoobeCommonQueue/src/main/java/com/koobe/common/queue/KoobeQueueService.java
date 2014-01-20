@@ -15,6 +15,7 @@ import com.amazonaws.services.sqs.model.*;
 import com.koobe.common.core.KoobeApplication;
 import com.koobe.common.core.config.KoobeConfig;
 import com.koobe.common.core.service.GeneralKoobeService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,17 +40,15 @@ public class KoobeQueueService extends GeneralKoobeService {
 
         KoobeConfig config = application.getConfig();
 
-        AWSCredentials credentials = new BasicAWSCredentials(
-                config.getAwsAccessKeyID(),
-                config.getAwsSecretKey());
+        AWSCredentials credentials = new BasicAWSCredentials(config.getAwsAccessKeyID(), config.getAwsSecretKey());
 
         sqsClient = new AmazonSQSClient(credentials);
-
+        
         Region region = Region.getRegion(Regions.AP_SOUTHEAST_1);
         sqsClient.setRegion(region);
         log.info("SQS Region: " + region);
 
-        queueUrl = config.get("AWS_SQS_QUEUE_URL");
+        queueUrl = config.getDefaultSqsQueueUrl();
     }
 
     /**
@@ -68,6 +67,8 @@ public class KoobeQueueService extends GeneralKoobeService {
      * @return messages
      */
     public List<String> receiveMessages(String queueUrl) {
+    	log.debug("receive messages from queue: " + queueUrl);
+    	
         ReceiveMessageResult result;
         result = sqsClient.receiveMessage(new ReceiveMessageRequest(queueUrl));
 
@@ -87,6 +88,39 @@ public class KoobeQueueService extends GeneralKoobeService {
 
         return msgs2;
     }
+    
+    /**
+     * Receive one message from the queue
+     * @return
+     */
+    public String receiveMessage() {
+    	return receiveMessage(queueUrl);
+    }
+    
+    /**
+     * Receive one message from the queue (specify url)
+     * @param queueUrl
+     * @return
+     */
+    public String receiveMessage(String queueUrl) {
+    	
+    	String return_value = null;
+    	
+    	ReceiveMessageRequest req  = new ReceiveMessageRequest(queueUrl);
+    	req.setMaxNumberOfMessages(1);
+    	
+    	ReceiveMessageResult res = sqsClient.receiveMessage(req);
+    	
+    	for (Message msg: res.getMessages()) {
+    		return_value = msg.getBody();
+    		
+    		DeleteMessageRequest dreq = new DeleteMessageRequest(queueUrl, msg.getReceiptHandle());
+    		sqsClient.deleteMessage(dreq);
+    	}
+    	
+    	return return_value;
+    }
+    
 
     /**
      * @param msg
