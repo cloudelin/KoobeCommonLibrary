@@ -205,4 +205,12 @@ public class KoobeConfig {
         
         return configValue;
     }
+    
+    public String getDefaultSqsQueueUrl() {
+    	String configValue = config.getProperty("AWS_SQS_QUEUE_URL");
+        if (configValue == null) {
+            log.warn("System environment variable not configured: AWS_SQS_QUEUE_URL");
+        }
+        return configValue;
+    }
 }
