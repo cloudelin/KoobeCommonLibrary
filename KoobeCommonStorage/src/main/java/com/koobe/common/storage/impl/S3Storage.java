@@ -195,6 +195,19 @@ public class S3Storage implements KoobeStorage {
 
         return destFile;
     }
+    
+    @Override
+	public boolean objectExists(String path) {
+    	try {
+            S3Object obj = s3service.getObject(bucketName, path);
+            if (obj != null) {
+                return true;
+            }
+        } catch (S3ServiceException e) {
+            log.error(e.getMessage());
+        }
+        return false;
+	}
 
     /**
      * Extract suffix name from a file name. (e.g. suffix for test.pdf is pdf)
@@ -255,5 +268,7 @@ public class S3Storage implements KoobeStorage {
         }
         return null;
     }
+
+	
 
 }

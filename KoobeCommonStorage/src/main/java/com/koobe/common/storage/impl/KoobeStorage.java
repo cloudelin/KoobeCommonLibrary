@@ -18,4 +18,5 @@ public interface KoobeStorage {
     public InputStream getFileInputStream(String path);
     public void removeFile(String path);
     public boolean hasFile(String path);
+    public boolean objectExists(String path);
 }
