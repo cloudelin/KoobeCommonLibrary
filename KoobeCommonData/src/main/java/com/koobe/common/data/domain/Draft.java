@@ -22,6 +22,10 @@ public class Draft {
         CONVERTING, READY, PUBLISHED;
     }
 
+    public enum DraftPrivacy {
+        PUBLIC, RELATIONS, GROUP, PRIVATE;
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
