@@ -28,7 +28,7 @@ public class MainTest {
     
     @BeforeClass
     public static void setUpClass() {
-        application = new KoobeApplication();
+        application = KoobeApplication.getInstance();
         service = (KoobeQueueService)application.getService("koobeQueueService");
     }
     
