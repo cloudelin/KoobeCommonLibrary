@@ -34,7 +34,7 @@ public class KoobeClientServiceTest {
 		assertNotNull(clientService);
 		
 		ExtractEpubRequest request = new ExtractEpubRequest("koobe-cloude-test", "koobe-cloude-test", 
-				"dickens-oliver-twist.epub", "unittest-" + System.currentTimeMillis());
+				"dickens-oliver-twist.epub", "KoobeClientServiceTest-" + System.currentTimeMillis());
 		
 		clientService.sendQueueMessageAndRunTask(request, "https://sqs.ap-southeast-1.amazonaws.com/417280986345/KGL-Service-Queue-Test");
 	}
