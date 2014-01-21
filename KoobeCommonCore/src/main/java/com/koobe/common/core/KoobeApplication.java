@@ -5,20 +5,23 @@
  */
 package com.koobe.common.core;
 
-import com.koobe.common.core.config.KoobeConfig;
-import com.koobe.common.core.service.KoobeService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.koobe.common.core.config.KoobeConfig;
+import com.koobe.common.core.service.KoobeService;
 
 /**
  * Koobe Application context object. Implement Singleton design pattern.
  *
  * @author lyhcode
+ * 
+ * 2014-1-21 cloude - add parameterized constructor and determine whether create embedded application context
  */
 public class KoobeApplication {
 
@@ -32,29 +35,44 @@ public class KoobeApplication {
     private static KoobeApplication instance = null;
 
     // Singleton
-    private final ApplicationContext context;
+    private ApplicationContext context;
 
-    // Application Setup
-    {
-        // Set global application object
+    /**
+     * 
+     * @param boolean - embeddedContext
+     */
+    private KoobeApplication(boolean embeddedContext) {
+    	
+    	// Set global application object
         KoobeApplicationContext.setApplication(this);
 
-        // Create context
-        Class appctx = KoobeApplicationContext.class;
-        context = new AnnotationConfigApplicationContext(appctx);
+        if (embeddedContext) {
+        	// Create context
+            Class appctx = KoobeApplicationContext.class;
+            context = new AnnotationConfigApplicationContext(appctx);
+        }
     }
 
     /**
-     * Always use this method to fetch a koobe application
+     * Always use this method to fetch a koobe application<BR>
+     * Get KoobeApplication sigleton object with initiated spring application context<BR>
+     * <BR>
+     * CAUTION: DO NOT CALL THIS METHOD ON WEB APPLICATION
      *
      * @return koobe application sigleton instance
      */
     public static KoobeApplication getInstance() {
-        if (instance != null) {
+        return getInstance(true);
+    }
+    
+    public static KoobeApplication getInstance(boolean embeddedContext) {
+    	if (instance != null) {
+    		if (embeddedContext && instance.getContext() == null) {
+    			instance = new KoobeApplication(embeddedContext);
+    		}
             return instance;
         }
-
-        return instance = new KoobeApplication();
+        return instance = new KoobeApplication(embeddedContext);
     }
 
     /**

@@ -16,7 +16,7 @@ public class Application {
         
         System.out.println("Hello Koobe");
         
-        KoobeApplication app = new KoobeApplication();
+        KoobeApplication app = KoobeApplication.getInstance();
         
         KoobeConfig config = app.getConfig();
         
