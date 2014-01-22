@@ -30,9 +30,9 @@ public class ExtractEpubRequestTest {
 
 	@Test
 	public void testToJson() throws JsonProcessingException {
-		ExtractEpubRequest extractEpubRequest = new ExtractEpubRequest(
-				"koobe-cloude-test", "koobe-cloude-test", "dickens-oliver-twist.epub", "/unziped_epub");
-		String json = extractEpubRequest.toJson();
+		ExtractEpubRequest extractEpubRequest = new ExtractEpubRequest("koobe-cloude-test", "koobe-cloude-test", "dickens-oliver-twist.epub", "/unziped_epub");
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(extractEpubRequest);
 		assertNotNull(json);
 		System.out.println(json);
 	}

@@ -1,11 +1,13 @@
 package com.koobe.common.model.message;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Request model of extract epub file for message queue
  * @author cloude
  * @since 2014-1-17
  */
-public class ExtractEpubRequest extends GeneralRequest {
+public class ExtractEpubRequest extends GeneralRequest implements IsSerializable {
 	
 	public final static String ACTION = "SendExtractEpubRequest";
 	
