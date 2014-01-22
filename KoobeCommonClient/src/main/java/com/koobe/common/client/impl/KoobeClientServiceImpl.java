@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.koobe.common.client.KoobeClientService;
 import com.koobe.common.core.service.GeneralKoobeService;
 import com.koobe.common.model.message.GeneralRequest;
@@ -25,7 +26,8 @@ public class KoobeClientServiceImpl extends GeneralKoobeService implements Koobe
 	}
 
 	@Override
-	public void sendQueueMessageAndRunTask(GeneralRequest request, String sqsUrl) throws JsonProcessingException {
-		queueService.sendMessage(sqsUrl, request.toJson());
+	public String sendQueueMessageAndRunTask(GeneralRequest request, String sqsUrl) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return queueService.sendMessage(sqsUrl, mapper.writeValueAsString(request));
 	}
 }

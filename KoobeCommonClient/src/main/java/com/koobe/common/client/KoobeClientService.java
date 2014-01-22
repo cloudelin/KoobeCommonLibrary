@@ -16,5 +16,5 @@ public interface KoobeClientService {
 	 * @param sqsUrl
 	 * @throws JsonProcessingException
 	 */
-	public void sendQueueMessageAndRunTask(GeneralRequest request, String sqsUrl) throws JsonProcessingException;
+	public String sendQueueMessageAndRunTask(GeneralRequest request, String sqsUrl) throws JsonProcessingException;
 }
