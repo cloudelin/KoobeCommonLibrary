@@ -5,19 +5,26 @@
  */
 package com.koobe.common.core;
 
-import com.koobe.common.core.service.KoobeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author lyhcode
  */
 @Configuration
-@ComponentScan("com.koobe.common")
+@ComponentScan(
+	basePackages = {"com.koobe.common"},
+	useDefaultFilters = false,
+	excludeFilters = @ComponentScan.Filter(type=FilterType.ANNOTATION, value={Controller.class}),
+	includeFilters = @ComponentScan.Filter(type=FilterType.ANNOTATION, value={Service.class, Repository.class, Component.class})
+)
 public class KoobeApplicationContext {
 
     private static KoobeApplication application;
