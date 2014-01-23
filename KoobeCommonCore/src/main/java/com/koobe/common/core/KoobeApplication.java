@@ -10,7 +10,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.koobe.common.core.config.KoobeConfig;
@@ -22,8 +24,9 @@ import com.koobe.common.core.service.KoobeService;
  * @author lyhcode
  * 
  * 2014-1-21 cloude - add parameterized constructor and determine whether create embedded application context
+ * 2014-1-23 cloude - add spring application context aware
  */
-public class KoobeApplication {
+public class KoobeApplication implements ApplicationContextAware {
 
     // Logger
     private static final Logger log = LoggerFactory.getLogger(KoobeApplication.class);
@@ -36,6 +39,11 @@ public class KoobeApplication {
 
     // Singleton
     private ApplicationContext context;
+    
+    @Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
+	}
 
     /**
      * 
@@ -48,16 +56,13 @@ public class KoobeApplication {
 
         if (embeddedContext) {
         	// Create context
-            Class appctx = KoobeApplicationContext.class;
-            context = new AnnotationConfigApplicationContext(appctx);
+            context = new AnnotationConfigApplicationContext(KoobeApplicationContext.class);
         }
     }
 
     /**
      * Always use this method to fetch a koobe application<BR>
-     * Get KoobeApplication sigleton object with initiated spring application context<BR>
-     * <BR>
-     * CAUTION: DO NOT CALL THIS METHOD ON WEB APPLICATION
+     * Get KoobeApplication sigleton object with initiated spring application context
      *
      * @return koobe application sigleton instance
      */
@@ -67,9 +72,6 @@ public class KoobeApplication {
     
     public static KoobeApplication getInstance(boolean embeddedContext) {
     	if (instance != null) {
-    		if (embeddedContext && instance.getContext() == null) {
-    			instance = new KoobeApplication(embeddedContext);
-    		}
             return instance;
         }
         return instance = new KoobeApplication(embeddedContext);
@@ -162,5 +164,4 @@ public class KoobeApplication {
         }
         return result;
     }
-
 }
