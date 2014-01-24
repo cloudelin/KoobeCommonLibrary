@@ -58,7 +58,7 @@ public class User implements Serializable, com.google.gwt.user.client.rpc.IsSeri
 	private Org org;
 
 	//bi-directional many-to-one association to UserBookmark
-	@OneToMany(mappedBy="user", cascade={CascadeType.DETACH})
+	@OneToMany(mappedBy="user")
 	private List<UserBookmark> userBookmarks;
 
 	public User() {
