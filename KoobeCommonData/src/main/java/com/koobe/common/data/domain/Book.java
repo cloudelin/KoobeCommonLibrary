@@ -1,223 +1,330 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.koobe.common.data.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.io.Serializable;
+
+import javax.persistence.*;
+
 import java.util.Date;
+import java.util.List;
+
 
 /**
- * @author lyhcode
+ * The persistent class for the Book database table.
+ * 
  */
 @Entity
-public class Book {
+@NamedQuery(name="Book.findAll", query="SELECT b FROM Book b")
+public class Book implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    private String guid;
-    private String name;
-    private String bucket;
-    private String folder;
-    private Integer zipped;
-    private String coverId;
-    private String coverHref;
-    private Integer coverWidth;
-    private Integer coverHeight;
-    private String koobeLayout;
-    private String flipOrder;
-    private String kt;
-    private Boolean disabled;
-    private Date modifyDate;
+	@Id
+	@Column(nullable=false)
+	private String guid;
 
-    public String getName() {
-        return name;
-    }
+	private String bucket;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private Integer coverHeight;
 
-    /**
-     * @return the guid
-     */
-    public String getGuid() {
-        return guid;
-    }
+	private String coverHref;
 
-    /**
-     * @param guid the guid to set
-     */
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
+	private String coverId;
 
-    /**
-     * @return the bucket
-     */
-    public String getBucket() {
-        return bucket;
-    }
+	private Integer coverWidth;
 
-    /**
-     * @param bucket the bucket to set
-     */
-    public void setBucket(String bucket) {
-        this.bucket = bucket;
-    }
+	private Boolean disabled;
 
-    /**
-     * @return the folder
-     */
-    public String getFolder() {
-        return folder;
-    }
+	private String flipOrder;
 
-    /**
-     * @param folder the folder to set
-     */
-    public void setFolder(String folder) {
-        this.folder = folder;
-    }
+	private String folder;
 
-    /**
-     * @return the zipped
-     */
-    public Integer getZipped() {
-        return zipped;
-    }
+	private String koobeLayout;
 
-    /**
-     * @param zipped the zipped to set
-     */
-    public void setZipped(Integer zipped) {
-        this.zipped = zipped;
-    }
+	private String kt;
 
-    /**
-     * @return the coverId
-     */
-    public String getCoverId() {
-        return coverId;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifyDate;
 
-    /**
-     * @param coverId the coverId to set
-     */
-    public void setCoverId(String coverId) {
-        this.coverId = coverId;
-    }
+	private String name;
 
-    /**
-     * @return the coverHref
-     */
-    public String getCoverHref() {
-        return coverHref;
-    }
+	private String opfRootPath;
 
-    /**
-     * @param coverHref the coverHref to set
-     */
-    public void setCoverHref(String coverHref) {
-        this.coverHref = coverHref;
-    }
+	private Integer zipped;
 
-    /**
-     * @return the coverWidth
-     */
-    public Integer getCoverWidth() {
-        return coverWidth;
-    }
+	//bi-directional many-to-one association to BookChannelItem
+	@OneToMany(mappedBy="book")
+	private List<BookChannelItem> bookChannelItems;
 
-    /**
-     * @param coverWidth the coverWidth to set
-     */
-    public void setCoverWidth(Integer coverWidth) {
-        this.coverWidth = coverWidth;
-    }
+	//bi-directional one-to-one association to BookSpineContent
+	@OneToOne(mappedBy="book", fetch=FetchType.LAZY)
+	private BookSpineContent bookSpineContent;
 
-    /**
-     * @return the coverHeight
-     */
-    public Integer getCoverHeight() {
-        return coverHeight;
-    }
+	//bi-directional one-to-one association to BookTocContent
+	@OneToOne(mappedBy="book", fetch=FetchType.LAZY)
+	private BookTocContent bookTocContent;
 
-    /**
-     * @param coverHeight the coverHeight to set
-     */
-    public void setCoverHeight(Integer coverHeight) {
-        this.coverHeight = coverHeight;
-    }
+	//bi-directional many-to-one association to FacebookCommentsOnBook
+	@OneToMany(mappedBy="book")
+	private List<FacebookCommentsOnBook> facebookCommentsOnBooks;
 
-    /**
-     * @return the koobeLayout
-     */
-    public String getKoobeLayout() {
-        return koobeLayout;
-    }
+	//bi-directional many-to-one association to FacebookLikeOnBook
+	@OneToMany(mappedBy="book")
+	private List<FacebookLikeOnBook> facebookLikeOnBooks;
 
-    /**
-     * @param koobeLayout the koobeLayout to set
-     */
-    public void setKoobeLayout(String koobeLayout) {
-        this.koobeLayout = koobeLayout;
-    }
+//	//bi-directional many-to-one association to OrgOrder
+//	@OneToMany(mappedBy="book")
+//	private List<OrgOrder> orgOrders;
 
-    /**
-     * @return the flipOrder
-     */
-    public String getFlipOrder() {
-        return flipOrder;
-    }
+	//bi-directional many-to-one association to UserBookmark
+	@OneToMany(mappedBy="book")
+	private List<UserBookmark> userBookmarks;
 
-    /**
-     * @param flipOrder the flipOrder to set
-     */
-    public void setFlipOrder(String flipOrder) {
-        this.flipOrder = flipOrder;
-    }
+	public Book() {
+	}
 
-    /**
-     * @return the kt
-     */
-    public String getKt() {
-        return kt;
-    }
+	public String getGuid() {
+		return this.guid;
+	}
 
-    /**
-     * @param kt the kt to set
-     */
-    public void setKt(String kt) {
-        this.kt = kt;
-    }
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
 
-    /**
-     * @return the disabled
-     */
-    public Boolean getDisabled() {
-        return disabled;
-    }
+	public String getBucket() {
+		return this.bucket;
+	}
 
-    /**
-     * @param disabled the disabled to set
-     */
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
-    }
+	public void setBucket(String bucket) {
+		this.bucket = bucket;
+	}
 
-    /**
-     * @return the modifyDate
-     */
-    public Date getModifyDate() {
-        return modifyDate;
-    }
+	public Integer getCoverHeight() {
+		return this.coverHeight;
+	}
 
-    /**
-     * @param modifyDate the modifyDate to set
-     */
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
+	public void setCoverHeight(Integer coverHeight) {
+		this.coverHeight = coverHeight;
+	}
+
+	public String getCoverHref() {
+		return this.coverHref;
+	}
+
+	public void setCoverHref(String coverHref) {
+		this.coverHref = coverHref;
+	}
+
+	public String getCoverId() {
+		return this.coverId;
+	}
+
+	public void setCoverId(String coverId) {
+		this.coverId = coverId;
+	}
+
+	public Integer getCoverWidth() {
+		return this.coverWidth;
+	}
+
+	public void setCoverWidth(Integer coverWidth) {
+		this.coverWidth = coverWidth;
+	}
+
+	public Boolean getDisabled() {
+		return this.disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public String getFlipOrder() {
+		return this.flipOrder;
+	}
+
+	public void setFlipOrder(String flipOrder) {
+		this.flipOrder = flipOrder;
+	}
+
+	public String getFolder() {
+		return this.folder;
+	}
+
+	public void setFolder(String folder) {
+		this.folder = folder;
+	}
+
+	public String getKoobeLayout() {
+		return this.koobeLayout;
+	}
+
+	public void setKoobeLayout(String koobeLayout) {
+		this.koobeLayout = koobeLayout;
+	}
+
+	public String getKt() {
+		return this.kt;
+	}
+
+	public void setKt(String kt) {
+		this.kt = kt;
+	}
+
+	public Date getModifyDate() {
+		return this.modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOpfRootPath() {
+		return this.opfRootPath;
+	}
+
+	public void setOpfRootPath(String opfRootPath) {
+		this.opfRootPath = opfRootPath;
+	}
+
+	public Integer getZipped() {
+		return this.zipped;
+	}
+
+	public void setZipped(Integer zipped) {
+		this.zipped = zipped;
+	}
+
+	public List<BookChannelItem> getBookChannelItems() {
+		return this.bookChannelItems;
+	}
+
+	public void setBookChannelItems(List<BookChannelItem> bookChannelItems) {
+		this.bookChannelItems = bookChannelItems;
+	}
+
+	public BookChannelItem addBookChannelItem(BookChannelItem bookChannelItem) {
+		getBookChannelItems().add(bookChannelItem);
+		bookChannelItem.setBook(this);
+
+		return bookChannelItem;
+	}
+
+	public BookChannelItem removeBookChannelItem(BookChannelItem bookChannelItem) {
+		getBookChannelItems().remove(bookChannelItem);
+		bookChannelItem.setBook(null);
+
+		return bookChannelItem;
+	}
+
+	public BookSpineContent getBookSpineContent() {
+		return this.bookSpineContent;
+	}
+
+	public void setBookSpineContent(BookSpineContent bookSpineContent) {
+		this.bookSpineContent = bookSpineContent;
+	}
+
+	public BookTocContent getBookTocContent() {
+		return this.bookTocContent;
+	}
+
+	public void setBookTocContent(BookTocContent bookTocContent) {
+		this.bookTocContent = bookTocContent;
+	}
+
+	public List<FacebookCommentsOnBook> getFacebookCommentsOnBooks() {
+		return this.facebookCommentsOnBooks;
+	}
+
+	public void setFacebookCommentsOnBooks(List<FacebookCommentsOnBook> facebookCommentsOnBooks) {
+		this.facebookCommentsOnBooks = facebookCommentsOnBooks;
+	}
+
+	public FacebookCommentsOnBook addFacebookCommentsOnBook(FacebookCommentsOnBook facebookCommentsOnBook) {
+		getFacebookCommentsOnBooks().add(facebookCommentsOnBook);
+		facebookCommentsOnBook.setBook(this);
+
+		return facebookCommentsOnBook;
+	}
+
+	public FacebookCommentsOnBook removeFacebookCommentsOnBook(FacebookCommentsOnBook facebookCommentsOnBook) {
+		getFacebookCommentsOnBooks().remove(facebookCommentsOnBook);
+		facebookCommentsOnBook.setBook(null);
+
+		return facebookCommentsOnBook;
+	}
+
+	public List<FacebookLikeOnBook> getFacebookLikeOnBooks() {
+		return this.facebookLikeOnBooks;
+	}
+
+	public void setFacebookLikeOnBooks(List<FacebookLikeOnBook> facebookLikeOnBooks) {
+		this.facebookLikeOnBooks = facebookLikeOnBooks;
+	}
+
+	public FacebookLikeOnBook addFacebookLikeOnBook(FacebookLikeOnBook facebookLikeOnBook) {
+		getFacebookLikeOnBooks().add(facebookLikeOnBook);
+		facebookLikeOnBook.setBook(this);
+
+		return facebookLikeOnBook;
+	}
+
+	public FacebookLikeOnBook removeFacebookLikeOnBook(FacebookLikeOnBook facebookLikeOnBook) {
+		getFacebookLikeOnBooks().remove(facebookLikeOnBook);
+		facebookLikeOnBook.setBook(null);
+
+		return facebookLikeOnBook;
+	}
+
+//	public List<OrgOrder> getOrgOrders() {
+//		return this.orgOrders;
+//	}
+//
+//	public void setOrgOrders(List<OrgOrder> orgOrders) {
+//		this.orgOrders = orgOrders;
+//	}
+//
+//	public OrgOrder addOrgOrder(OrgOrder orgOrder) {
+//		getOrgOrders().add(orgOrder);
+//		orgOrder.setBook(this);
+//
+//		return orgOrder;
+//	}
+//
+//	public OrgOrder removeOrgOrder(OrgOrder orgOrder) {
+//		getOrgOrders().remove(orgOrder);
+//		orgOrder.setBook(null);
+//
+//		return orgOrder;
+//	}
+
+	public List<UserBookmark> getUserBookmarks() {
+		return this.userBookmarks;
+	}
+
+	public void setUserBookmarks(List<UserBookmark> userBookmarks) {
+		this.userBookmarks = userBookmarks;
+	}
+
+	public UserBookmark addUserBookmark(UserBookmark userBookmark) {
+		getUserBookmarks().add(userBookmark);
+		userBookmark.setBook(this);
+
+		return userBookmark;
+	}
+
+	public UserBookmark removeUserBookmark(UserBookmark userBookmark) {
+		getUserBookmarks().remove(userBookmark);
+		userBookmark.setBook(null);
+
+		return userBookmark;
+	}
+
 }

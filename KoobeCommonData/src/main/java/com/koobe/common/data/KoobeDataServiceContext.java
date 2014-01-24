@@ -5,19 +5,16 @@
  */
 package com.koobe.common.data;
 
-import com.koobe.common.core.KoobeApplication;
-import com.koobe.common.core.service.KoobeService;
 import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -26,12 +23,13 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.sql.Driver;
-import java.util.logging.Level;
+import com.koobe.common.core.KoobeApplication;
 
 /**
  *
  * @author lyhcode
+ * 
+ * 2014-1-23 cloude - Use data source {org.apache.commons.dbcp.BasicDataSource} for connection pool mechanism
  */
 @Configuration
 @EnableJpaRepositories
@@ -44,68 +42,60 @@ public class KoobeDataServiceContext {
     private final static Logger log = LoggerFactory.getLogger(KoobeDataServiceContext.class);
 
     private static final String JDBC_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-
-    /**
-     * Get the JDBC Connection URL
-     * @return connection url
-     */
-    private String getConnectionUrl() {
-        return application.getConfig().getJDBCConnectionUrl();
-    }
-
-    /**
-     * Get JdbcTemplate instance from Spring-JDBC
-     * @return jdbcTemplate
-     */
-    private JdbcTemplate getJdbcTemplate() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-        jdbcTemplate.execute("use KGL");
-
-        log.info("JdbcTemplate created.");
-        return jdbcTemplate;
-    }
-
-    /**
-     * Get Data Source Object
-     * @return dataSource
-     */
-    private DataSource getDataSource() {
-
-        try {
-            SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-            dataSource.setDriverClass((Class<Driver>) Class.forName(JDBC_DRIVER_CLASS));
-
-            log.info("Data source connection url: {}", getConnectionUrl());
-            dataSource.setUrl(getConnectionUrl());
-
-
-            //dataSource.setUsername();
-            //dataSource.setPassword();
-            return dataSource;
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(KoobeDataService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-    }
+    
+    private static final int POOL_INITSIZE = 10;
+    
+    private static final int POOL_MINIDLE = 10;
+    
+    private static final int POOL_MAXIDLE = 10;
+    
+    private static final int POOL_MAXACTIVE = 50;
 
     @Bean
     public DataSource dataSource() {
-        DataSource dataSource = getDataSource();
+    	
+    	BasicDataSource dataSource = new BasicDataSource();
+    	dataSource.setDriverClassName(JDBC_DRIVER_CLASS);
+    	dataSource.setUrl(getConnectionUrl());
+        log.info("Data source connection url: {}", dataSource.getUrl());
+        
+//        dataSource.setInitialSize(POOL_INITSIZE);
+//        dataSource.setMinIdle(POOL_MINIDLE);
+//        dataSource.setMaxIdle(POOL_MAXIDLE);
+//        dataSource.setMaxActive(POOL_MAXACTIVE);
+        
+        dataSource.setTestWhileIdle(true);
+        dataSource.setValidationQuery("select 1"); // for mysql
+        dataSource.setTimeBetweenEvictionRunsMillis(1800000); // half-hour
+
+        dataSource.setRemoveAbandoned(true);
+        dataSource.setLogAbandoned(true);
+        
         log.info("Inject dataSource {}.", dataSource);
+        
+        try {
+        	log.info("DataSource: org.apache.commons.dbcp.BasicDataSource, InitSize Connection: {}", ((BasicDataSource)dataSource).getInitialSize());
+        	log.info("DataSource: org.apache.commons.dbcp.BasicDataSource, MaxActive Connection: {}", ((BasicDataSource)dataSource).getMaxActive());
+        	log.info("DataSource: org.apache.commons.dbcp.BasicDataSource, MaxIdle Connection: {}", ((BasicDataSource)dataSource).getMaxIdle());
+        	log.info("DataSource: org.apache.commons.dbcp.BasicDataSource, MinIdle Connection: {}", ((BasicDataSource)dataSource).getMinIdle());
+        	log.info("DataSource: org.apache.commons.dbcp.BasicDataSource, NumActive Connection: {}", ((BasicDataSource)dataSource).getNumActive());
+        } catch (Exception e) { }
+        
         return dataSource;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        JdbcTemplate jdbcTemplate = getJdbcTemplate();
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+    	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+//      jdbcTemplate.execute("use KGL"); // should determined by jdbc conn URL
+    	
         log.info("Inject jdbcTemplate {}.", jdbcTemplate);
         return jdbcTemplate;
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
-        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+    	LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
         lef.setDataSource(dataSource);
         lef.setJpaVendorAdapter(jpaVendorAdapter);
         lef.setPackagesToScan("com.koobe.common.data");
@@ -114,8 +104,11 @@ public class KoobeDataServiceContext {
 
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(true);
+       
+    	HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        if (log.isDebugEnabled()) {
+        	hibernateJpaVendorAdapter.setShowSql(true);
+        }
         hibernateJpaVendorAdapter.setGenerateDdl(false);  // Disable hbm2ddl to keep original MySQL database schema
         hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
         return hibernateJpaVendorAdapter;
@@ -125,5 +118,12 @@ public class KoobeDataServiceContext {
     public PlatformTransactionManager transactionManager() {
         return new JpaTransactionManager();
     }
-
+    
+    /**
+     * Get the JDBC Connection URL
+     * @return connection url
+     */
+    private String getConnectionUrl() {
+        return application.getConfig().getJDBCConnectionUrl();
+    }
 }

@@ -1,230 +1,190 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.koobe.common.data.domain;
 
+import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.List;
+
 
 /**
- * @author lyhcode
+ * The persistent class for the BookChannel database table.
+ * 
  */
 @Entity
-public class BookChannel {
+@NamedQuery(name="BookChannel.findAll", query="SELECT b FROM BookChannel b")
+public class BookChannel implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    private Long id;
-    private String title;
-    private String link;
-    private String description;
-    private String image;
-    private String language;
-    private String category;
-    private Date lastBuildDate;
-    private Date pubDate;
-    private Integer ttl;
-    private Integer skipDays;
-    private Integer skipHours;
-    private String webMaster;
-    private Integer rating;
+	@Id
+	private Long id;
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	private String category;
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private String description;
 
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
+	private String image;
 
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	private String language;
 
-    /**
-     * @return the link
-     */
-    public String getLink() {
-        return link;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastBuildDate;
 
-    /**
-     * @param link the link to set
-     */
-    public void setLink(String link) {
-        this.link = link;
-    }
+	private String link;
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date pubDate;
 
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	private Integer rating;
 
-    /**
-     * @return the image
-     */
-    public String getImage() {
-        return image;
-    }
+	private Integer skipDays;
 
-    /**
-     * @param image the image to set
-     */
-    public void setImage(String image) {
-        this.image = image;
-    }
+	private Integer skipHours;
 
-    /**
-     * @return the language
-     */
-    public String getLanguage() {
-        return language;
-    }
+	private String title;
 
-    /**
-     * @param language the language to set
-     */
-    public void setLanguage(String language) {
-        this.language = language;
-    }
+	private Integer ttl;
 
-    /**
-     * @return the category
-     */
-    public String getCategory() {
-        return category;
-    }
+	private String webMaster;
 
-    /**
-     * @param category the category to set
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	//bi-directional many-to-one association to BookChannelItem
+	@OneToMany(mappedBy="bookChannel")
+	private List<BookChannelItem> bookChannelItems;
 
-    /**
-     * @return the lastBuildDate
-     */
-    public Date getLastBuildDate() {
-        return lastBuildDate;
-    }
+	public BookChannel() {
+	}
 
-    /**
-     * @param lastBuildDate the lastBuildDate to set
-     */
-    public void setLastBuildDate(Date lastBuildDate) {
-        this.lastBuildDate = lastBuildDate;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    /**
-     * @return the pubDate
-     */
-    public Date getPubDate() {
-        return pubDate;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @param pubDate the pubDate to set
-     */
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
-    }
+	public String getCategory() {
+		return this.category;
+	}
 
-    /**
-     * @return the ttl
-     */
-    public Integer getTtl() {
-        return ttl;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    /**
-     * @param ttl the ttl to set
-     */
-    public void setTtl(Integer ttl) {
-        this.ttl = ttl;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    /**
-     * @return the skipDays
-     */
-    public Integer getSkipDays() {
-        return skipDays;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    /**
-     * @param skipDays the skipDays to set
-     */
-    public void setSkipDays(Integer skipDays) {
-        this.skipDays = skipDays;
-    }
+	public String getImage() {
+		return this.image;
+	}
 
-    /**
-     * @return the skipHours
-     */
-    public Integer getSkipHours() {
-        return skipHours;
-    }
+	public void setImage(String image) {
+		this.image = image;
+	}
 
-    /**
-     * @param skipHours the skipHours to set
-     */
-    public void setSkipHours(Integer skipHours) {
-        this.skipHours = skipHours;
-    }
+	public String getLanguage() {
+		return this.language;
+	}
 
-    /**
-     * @return the webMaster
-     */
-    public String getWebMaster() {
-        return webMaster;
-    }
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
-    /**
-     * @param webMaster the webMaster to set
-     */
-    public void setWebMaster(String webMaster) {
-        this.webMaster = webMaster;
-    }
+	public Date getLastBuildDate() {
+		return this.lastBuildDate;
+	}
 
-    /**
-     * @return the rating
-     */
-    public Integer getRating() {
-        return rating;
-    }
+	public void setLastBuildDate(Date lastBuildDate) {
+		this.lastBuildDate = lastBuildDate;
+	}
 
-    /**
-     * @param rating the rating to set
-     */
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
+	public String getLink() {
+		return this.link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public Date getPubDate() {
+		return this.pubDate;
+	}
+
+	public void setPubDate(Date pubDate) {
+		this.pubDate = pubDate;
+	}
+
+	public Integer getRating() {
+		return this.rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public Integer getSkipDays() {
+		return this.skipDays;
+	}
+
+	public void setSkipDays(Integer skipDays) {
+		this.skipDays = skipDays;
+	}
+
+	public Integer getSkipHours() {
+		return this.skipHours;
+	}
+
+	public void setSkipHours(Integer skipHours) {
+		this.skipHours = skipHours;
+	}
+
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getTtl() {
+		return this.ttl;
+	}
+
+	public void setTtl(Integer ttl) {
+		this.ttl = ttl;
+	}
+
+	public String getWebMaster() {
+		return this.webMaster;
+	}
+
+	public void setWebMaster(String webMaster) {
+		this.webMaster = webMaster;
+	}
+
+	public List<BookChannelItem> getBookChannelItems() {
+		return this.bookChannelItems;
+	}
+
+	public void setBookChannelItems(List<BookChannelItem> bookChannelItems) {
+		this.bookChannelItems = bookChannelItems;
+	}
+
+	public BookChannelItem addBookChannelItem(BookChannelItem bookChannelItem) {
+		getBookChannelItems().add(bookChannelItem);
+		bookChannelItem.setBookChannel(this);
+
+		return bookChannelItem;
+	}
+
+	public BookChannelItem removeBookChannelItem(BookChannelItem bookChannelItem) {
+		getBookChannelItems().remove(bookChannelItem);
+		bookChannelItem.setBookChannel(null);
+
+		return bookChannelItem;
+	}
+
 }

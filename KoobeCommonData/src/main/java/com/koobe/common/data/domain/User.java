@@ -1,157 +1,209 @@
 package com.koobe.common.data.domain;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 /**
- * Created by lyhcode on 2013/12/14.
+ * The persistent class for the User database table.
+ * 
  */
 @Entity
-public class User {
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+public class User implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    private Long id;
+	@Id
+	private Long id;
 
-    @Column(unique = true)
-    private String userId;
+	private Boolean adminRole;
 
-    private Integer orgId;
-    private Integer communityId;
-    private String name;
-    private String email;
-    private Date birthday;
-    private Long gender;
-    private String affiliateUser;
-    private String password;
-    private Boolean valid;
-    private Boolean adminRole;
-    private Date timestamp;
-    private String remark;
+	private String affiliateUser;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "UserDraft",
-            joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "draftId", referencedColumnName = "id"))
-    private List<Draft> drafts;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date birthday;
 
-    public Long getId() {
-        return id;
-    }
+	private String email;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Integer gender;
 
-    public String getUserId() {
-        return userId;
-    }
+	private String name;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	private String password;
 
-    public Integer getOrgId() {
-        return orgId;
-    }
+	private String remark;
 
-    public void setOrgId(Integer orgId) {
-        this.orgId = orgId;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
-    public Integer getCommunityId() {
-        return communityId;
-    }
+	private String userId;
 
-    public void setCommunityId(Integer communityId) {
-        this.communityId = communityId;
-    }
+	private Boolean valid;
+	
+	//bi-directional many-to-many association to Draft
+	@ManyToMany(mappedBy="users")
+	private List<Draft> drafts;
 
-    public String getName() {
-        return name;
-    }
+	//bi-directional many-to-one association to Community
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="communityId")
+	private Community community;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	//bi-directional many-to-one association to Org
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="orgId")
+	private Org org;
 
-    public String getEmail() {
-        return email;
-    }
+	//bi-directional many-to-one association to UserBookmark
+	@OneToMany(mappedBy="user", cascade={CascadeType.DETACH})
+	private List<UserBookmark> userBookmarks;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public User() {
+	}
 
-    public Date getBirthday() {
-        return birthday;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getGender() {
-        return gender;
-    }
+	public Boolean getAdminRole() {
+		return this.adminRole;
+	}
 
-    public void setGender(Long gender) {
-        this.gender = gender;
-    }
+	public void setAdminRole(Boolean adminRole) {
+		this.adminRole = adminRole;
+	}
 
-    public String getAffiliateUser() {
-        return affiliateUser;
-    }
+	public String getAffiliateUser() {
+		return this.affiliateUser;
+	}
 
-    public void setAffiliateUser(String affiliateUser) {
-        this.affiliateUser = affiliateUser;
-    }
+	public void setAffiliateUser(String affiliateUser) {
+		this.affiliateUser = affiliateUser;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public Date getBirthday() {
+		return this.birthday;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
 
-    public Boolean getValid() {
-        return valid;
-    }
+	public String getEmail() {
+		return this.email;
+	}
 
-    public void setValid(Boolean valid) {
-        this.valid = valid;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public Boolean getAdminRole() {
-        return adminRole;
-    }
+	public Integer getGender() {
+		return this.gender;
+	}
 
-    public void setAdminRole(Boolean adminRole) {
-        this.adminRole = adminRole;
-    }
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public List<Draft> getDrafts() {
-        return drafts;
-    }
+	public String getRemark() {
+		return this.remark;
+	}
 
-    public void setDrafts(List<Draft> drafts) {
-        this.drafts = drafts;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Date getTimestamp() {
+		return this.timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Boolean getValid() {
+		return this.valid;
+	}
+
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
+	
+	public List<Draft> getDrafts() {
+		return this.drafts;
+	}
+
+	public void setDrafts(List<Draft> drafts) {
+		this.drafts = drafts;
+	}
+
+	public Community getCommunity() {
+		return this.community;
+	}
+
+	public void setCommunity(Community community) {
+		this.community = community;
+	}
+
+	public Org getOrg() {
+		return this.org;
+	}
+
+	public void setOrg(Org org) {
+		this.org = org;
+	}
+
+	public List<UserBookmark> getUserBookmarks() {
+		return this.userBookmarks;
+	}
+
+	public void setUserBookmarks(List<UserBookmark> userBookmarks) {
+		this.userBookmarks = userBookmarks;
+	}
+
+	public UserBookmark addUserBookmark(UserBookmark userBookmark) {
+		getUserBookmarks().add(userBookmark);
+		userBookmark.setUser(this);
+
+		return userBookmark;
+	}
+
+	public UserBookmark removeUserBookmark(UserBookmark userBookmark) {
+		getUserBookmarks().remove(userBookmark);
+		userBookmark.setUser(null);
+
+		return userBookmark;
+	}
+
 }
