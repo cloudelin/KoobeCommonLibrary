@@ -23,16 +23,24 @@ dependencies {
     
     // Spring Data JPA
     compile('org.springframework.data:spring-data-jpa:1.4.1.RELEASE')
+	
+	// Java persistence api
+	compile 'javax.persistence:persistence-api:1.0.2'
     
     // Hibernate EntityManager
-    compile("org.hibernate:hibernate-entitymanager:4.2.1.Final")
+    compile("org.hibernate:hibernate-entitymanager:4.3.0.Final")
     
+	// Apache DBCP
+	compile 'commons-dbcp:commons-dbcp:1.4'
+	
     // MySQL
-    compile('mysql:mysql-connector-java:5.1.27')
+    compile('mysql:mysql-connector-java:5.1.28')
 
     // Amazon AWS Java SDK
     compile 'com.amazonaws:aws-java-sdk:1.6.11'
     
     // spymemcached
     //compile 'net.spy:spymemcached:2.10.2'
+	
+	compile 'com.google.gwt:gwt-user:2.5.1'
 }
