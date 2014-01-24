@@ -5,4 +5,5 @@ dependencies {
 	compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
 
     compile 'com.google.gwt:gwt-user:2.5.1'
+	compile 'com.github.nmorel.gwtjackson:gwt-jackson:0.4.0'
 }
