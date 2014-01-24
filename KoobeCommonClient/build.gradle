@@ -1,17 +1,9 @@
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
 	compile project(':KoobeCommonCore')
 	compile project(':KoobeCommonQueue')
 	compile project(':KoobeCommonModel')
 	
-    testCompile 'junit:junit:4.11'
-	
 	compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
 	compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
-	
 }
