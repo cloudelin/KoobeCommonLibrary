@@ -7,7 +7,9 @@ package com.koobe.common.data.service;
 
 import com.koobe.common.data.dao.BookRow;
 import com.koobe.common.data.dao.BookRowMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @author lyhcode
  */
 @Service
+@Lazy(value=true)
 public class BookDataService implements DataService {
 
     @Autowired
