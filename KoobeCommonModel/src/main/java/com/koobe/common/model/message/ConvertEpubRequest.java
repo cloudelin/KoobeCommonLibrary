@@ -1,6 +1,5 @@
 package com.koobe.common.model.message;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.koobe.common.model.enums.FileTypeEnum;
 
 /**
@@ -8,7 +7,7 @@ import com.koobe.common.model.enums.FileTypeEnum;
  * @author cloude
  * @since 2014-1-22
  */
-public class ConvertEpubRequest extends GeneralRequest implements IsSerializable {
+public class ConvertEpubRequest extends GeneralRequest {
 	
 	public final static String ACTION = "SendConvertEpubRequest";
 	
