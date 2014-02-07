@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.koobe.common.client.KoobeClientService;
+import com.koobe.common.client.WorkerStatusClientService;
 import com.koobe.common.core.service.GeneralKoobeService;
 import com.koobe.common.model.message.GeneralRequest;
 import com.koobe.common.queue.KoobeQueueService;
@@ -19,10 +20,14 @@ import com.koobe.common.queue.KoobeQueueService;
 public class KoobeClientServiceImpl extends GeneralKoobeService implements KoobeClientService {
 
 	@Autowired
-	private KoobeQueueService queueService;
-
-	public void setQueueService(KoobeQueueService queueService) {
-		this.queueService = queueService;
+	KoobeQueueService queueService;
+	
+	@Autowired
+	WorkerStatusClientService workerStatusService;
+	
+	@Override
+	public WorkerStatusClientService getWorkerStatusClientService() {
+		return workerStatusService;
 	}
 
 	@Override
@@ -30,4 +35,5 @@ public class KoobeClientServiceImpl extends GeneralKoobeService implements Koobe
 		ObjectMapper mapper = new ObjectMapper();
 		return queueService.sendMessage(sqsUrl, mapper.writeValueAsString(request));
 	}
+	
 }
