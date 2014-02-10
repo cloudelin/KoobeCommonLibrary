@@ -42,5 +42,5 @@ dependencies {
     // spymemcached
     //compile 'net.spy:spymemcached:2.10.2'
 	
-	compile 'com.google.gwt:gwt-user:2.5.1'
+	// compile 'com.google.gwt:gwt-user:2.5.1'
 }
