@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type")
 @JsonSubTypes({
 	@Type(value=ExtractEpubRequest.class, name="ExtractEpubRequest"),
-	@Type(value=ConvertEpubRequest.class, name="ConvertEpubRequest")
+	@Type(value=ConvertEpubRequest.class, name="ConvertEpubRequest"),
+	@Type(value=RunDummyWorkerRequest.class, name="RunDummyWorkerRequest")
 })
 public class GeneralRequest {
 	
