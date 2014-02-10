@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="BookChannel.findAll", query="SELECT b FROM BookChannel b")
-public class BookChannel implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class BookChannel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

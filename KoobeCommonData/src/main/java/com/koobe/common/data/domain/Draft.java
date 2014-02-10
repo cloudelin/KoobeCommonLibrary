@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Draft.findAll", query="SELECT d FROM Draft d")
-public class Draft implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class Draft implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public enum DraftStatus {

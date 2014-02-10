@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="OrgOrder.findAll", query="SELECT o FROM OrgOrder o")
-public class OrgOrder implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class OrgOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

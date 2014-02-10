@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="ReadingLog.findAll", query="SELECT r FROM ReadingLog r")
-public class ReadingLog implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class ReadingLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

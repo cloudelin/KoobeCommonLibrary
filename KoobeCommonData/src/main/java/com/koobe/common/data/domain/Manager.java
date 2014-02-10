@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Manager.findAll", query="SELECT m FROM Manager m")
-public class Manager implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class Manager implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

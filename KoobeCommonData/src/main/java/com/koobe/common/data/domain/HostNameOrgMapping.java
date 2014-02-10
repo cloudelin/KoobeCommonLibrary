@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="HostNameOrgMapping.findAll", query="SELECT h FROM HostNameOrgMapping h")
-public class HostNameOrgMapping implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class HostNameOrgMapping implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

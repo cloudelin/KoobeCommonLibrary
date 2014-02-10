@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name="BookChannelItems")
 @NamedQuery(name="BookChannelItem.findAll", query="SELECT b FROM BookChannelItem b")
-public class BookChannelItem implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class BookChannelItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

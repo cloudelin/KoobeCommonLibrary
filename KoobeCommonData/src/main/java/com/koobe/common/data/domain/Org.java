@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQuery(name="Org.findAll", query="SELECT o FROM Org o")
-public class Org implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class Org implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

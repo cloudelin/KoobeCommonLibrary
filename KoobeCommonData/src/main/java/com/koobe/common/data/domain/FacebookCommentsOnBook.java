@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="FacebookCommentsOnBook.findAll", query="SELECT f FROM FacebookCommentsOnBook f")
-public class FacebookCommentsOnBook implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class FacebookCommentsOnBook implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

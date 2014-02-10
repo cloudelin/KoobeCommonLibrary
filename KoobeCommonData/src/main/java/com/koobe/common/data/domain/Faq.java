@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Faq.findAll", query="SELECT f FROM Faq f")
-public class Faq implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class Faq implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

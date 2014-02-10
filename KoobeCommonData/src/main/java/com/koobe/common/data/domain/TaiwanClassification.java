@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="TaiwanClassification.findAll", query="SELECT t FROM TaiwanClassification t")
-public class TaiwanClassification implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class TaiwanClassification implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

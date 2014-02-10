@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="CategoryGroup.findAll", query="SELECT c FROM CategoryGroup c")
-public class CategoryGroup implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class CategoryGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

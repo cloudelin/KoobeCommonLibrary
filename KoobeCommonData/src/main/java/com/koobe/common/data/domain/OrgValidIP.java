@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="OrgValidIP.findAll", query="SELECT o FROM OrgValidIP o")
-public class OrgValidIP implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class OrgValidIP implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

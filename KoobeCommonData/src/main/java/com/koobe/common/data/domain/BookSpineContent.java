@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="BookSpineContent.findAll", query="SELECT b FROM BookSpineContent b")
-public class BookSpineContent implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class BookSpineContent implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Community.findAll", query="SELECT c FROM Community c")
-public class Community implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class Community implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

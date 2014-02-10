@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="AnonymousTrialRead.findAll", query="SELECT a FROM AnonymousTrialRead a")
-public class AnonymousTrialRead implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class AnonymousTrialRead implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

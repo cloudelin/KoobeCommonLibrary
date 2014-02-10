@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name="OrgNews")
 @NamedQuery(name="OrgNew.findAll", query="SELECT o FROM OrgNew o")
-public class OrgNew implements Serializable, com.google.gwt.user.client.rpc.IsSerializable {
+public class OrgNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
