@@ -1,5 +1,6 @@
 package com.koobe.common.storage.impl;
 
+import com.koobe.common.storage.KoobeStorage;
 import org.apache.commons.io.IOUtils;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -117,6 +118,17 @@ public class S3Storage implements KoobeStorage {
         } catch (S3ServiceException e) {
             log.error(e.getMessage());
         }
+    }
+
+    /**
+     * Upload files from a local directory to s3 bucket.
+     *
+     * @param path
+     * @param directory
+     */
+    @Override
+    public void putFiles(String path, File directory) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**

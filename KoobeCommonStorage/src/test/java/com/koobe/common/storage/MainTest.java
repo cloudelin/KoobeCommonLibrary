@@ -7,7 +7,6 @@
 package com.koobe.common.storage;
 
 import com.koobe.common.core.KoobeApplication;
-import com.koobe.common.storage.impl.KoobeStorage;
 import org.junit.*;
 
 import java.io.File;
